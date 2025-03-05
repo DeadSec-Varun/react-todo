@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const Header = () => {
   return (
@@ -7,8 +8,8 @@ const Header = () => {
             <span className='text-2xl font-bold'>iTask</span>
         </div>
         <div className='space-x-10 font-medium'>
-            <span className=' cursor-pointer'>Home</span>
-            <span className=' cursor-pointer'>Your Tasks</span>
+            <NavLink to='/home' className={({isActive}) =>`${ isActive && 'text-yellow-300'}cursor-pointer` }>Home</NavLink>
+            <NavLink to='/tasks' className={({isActive}) =>`${ isActive && 'text-yellow-300'}cursor-pointer` }>Your Tasks</NavLink>
         </div>
     </header>
   )

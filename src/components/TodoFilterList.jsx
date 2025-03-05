@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import TodoList from './TodoList'
 
-const TodoFilterList = (props) => {
+const TodoFilterList = () => {
     const [showFinished, setShowFinished] = useState(false);
 
     const handleCheckboxChange = (event) => {
@@ -15,7 +15,7 @@ const TodoFilterList = (props) => {
                 <span>Show finished</span>
             </label>
             <div className=' w-[90%] h-[1px] bg-gray-300 my-6 place-self-center'></div>
-            <TodoList showFinished={showFinished} {...props} />
+            <TodoList showFinished={showFinished}/>
         </div>
     )
 }

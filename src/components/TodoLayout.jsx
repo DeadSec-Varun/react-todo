@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import InputLayout from './InputLayout';
 import TodoFilterList from './TodoFilterList';
 import Header from './Header';
 import axios from 'axios';
+
+export const TodoContext = createContext();
 
 const TodoLayout = () => {
 
@@ -64,7 +66,9 @@ const TodoLayout = () => {
                 <div className='flex flex-col gap-10 container mx-auto my-10 p-10 bg-purple-100 rounded-lg shadow-lg max-w-[60%]'>
                     <h1 className=' self-center text-3xl font-bold'>iTask - Manage your Todos at one place</h1>
                     <InputLayout setTitle={setTitle} />
-                    <TodoFilterList data={data} onEdit={handleUpdate} onDelete={handleDelete} />
+                    <TodoContext.Provider value={{data, handleUpdate, handleDelete }}>
+                    <TodoFilterList />
+                    </TodoContext.Provider>
                 </div>
             </main>
         </>

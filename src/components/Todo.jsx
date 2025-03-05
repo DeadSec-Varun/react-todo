@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
+import { TodoContext } from './TodoLayout';
 
-const Todo = ({ todo, onEdit, onDelete }) => {
+const Todo = ({ todo }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editTitle, setEditTitle] = useState(todo.title);
     const [error, setError] = useState(false);
 
+    const {handleUpdate, handleDelete} = useContext(TodoContext);
+
 
     const handleCheckboxChange = (event) => {
-        onEdit(todo._id, { completed: event.target.checked });
+        handleUpdate(todo._id, { completed: event.target.checked });
     };
 
     const handleEditClick = () => {
@@ -21,7 +24,7 @@ const Todo = ({ todo, onEdit, onDelete }) => {
             setError(true);
             return;
         }
-        onEdit(todo._id, { title: editTitle });
+        handleUpdate(todo._id, { title: editTitle });
         setIsEditing(false);
     };
 
@@ -77,7 +80,7 @@ const Todo = ({ todo, onEdit, onDelete }) => {
                 )}
                 <button
                     className="w-5 h-5 cursor-pointer text-purple-600"
-                    onClick={() => onDelete(todo._id)}
+                    onClick={() => handleDelete(todo._id)}
                 >
                     <AiFillDelete />
                 </button>

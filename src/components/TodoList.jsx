@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { TodoContext } from './TodoLayout';
 import Todo from './Todo';
 
-const TodoList = ({ showFinished, data, onEdit, onDelete }) => {
+const TodoList = ({ showFinished }) => {
+
+  const { data } = React.useContext(TodoContext);
 
   return (
     <div>
@@ -12,7 +15,7 @@ const TodoList = ({ showFinished, data, onEdit, onDelete }) => {
           <h2 className='text-xl font-bold mb-4'>Your Todos</h2>
           {data.map(todo => {
             if (showFinished || !todo.completed) {
-              return <Todo key={todo._id} todo={todo} onEdit={onEdit} onDelete={onDelete} />;
+              return <Todo key={todo._id} todo={todo} />;
             }
             return null;
           })}
