@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { TodoContext } from './TodoLayout';
 import Todo from './Todo';
 
 const TodoList = ({ showFinished }) => {
 
-  const { data } = React.useContext(TodoContext);
+  const { data } = useContext(TodoContext);
 
   return (
     <div>

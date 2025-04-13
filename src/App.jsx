@@ -5,9 +5,7 @@ import TodoLayout from './components/TodoLayout';
 import Home from './pages/Home';
 import Tasks from './pages/Tasks';
 import NotFound from './pages/NotFound';
-import Header from './components/Header';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Welcome from './pages/Welcome';
 import ProtectedRoutes from './routes/ProtectedRoutes';
 
 function App() {
@@ -19,8 +17,7 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' element={<Navigate to={'/home'} replace/>} />
-        <Route path='/login' element={<Login/>} /> 
-        <Route path='/register' element={<Signup/>} /> 
+        <Route path='/welcome' element={<Welcome/>} /> 
         <Route element={ <ProtectedRoutes/> }>
                 <Route path='/home' element={<Home />} />
                 <Route path='/tasks' element={<Tasks />} />
