@@ -1,22 +1,79 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-const Login = ({setPage}) => {
+const Login = ({ setPage }) => {
+  const [cred, setCred] = useState({ username: "", password: "" });
+  const [error, setError] = useState(""); // State to store error messages
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  useEffect(() => {
+    setError(""); // Clear error message when typed
+  }, [cred])
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCred({ ...cred, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:5000/user/login', cred); // Login API endpoint
+      console.log("Login successful:", res.data);
+      localStorage.setItem('token', res.data.token); // Store token in local storage
+      navigate('/home'); // Use navigate to redirect
+    } catch (error) {
+      console.error(error);
+      setError(error.response.data.message); // Set error message on server error
+    }
+  };
+
   return (
     <div className="w-full max-w-md mx-auto h-3/4 p-8 space-y-6 bg-white rounded shadow-lg">
       <h2 className="text-2xl font-bold text-center">Login</h2>
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username:</label>
-          <input type="text" id="username" name="username" required className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-purple-300" />
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={cred.username}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-purple-300"
+          />
         </div>
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password:</label>
-          <input type="password" id="password" name="password" required className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-purple-300" />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={cred.password}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-purple-300"
+          />
         </div>
-        <button type="submit" className="w-full mt-4 px-4 py-2 font-bold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200">Login</button>
+        {error && <p className="text-sm text-red-500">{error}</p>} {/* Display error message */}
+        <button
+          type="submit"
+          className="w-full mt-4 px-4 py-2 font-bold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200"
+        >
+          Login
+        </button>
       </form>
       <p className="text-sm text-center">
-        Don't have an account? <span onClick={()=>setPage('signup')} className="text-indigo-600 hover:underline cursor-pointer">Sign up</span>
+        Don't have an account?{" "}
+        <span
+          onClick={() => setPage("signup")}
+          className="text-indigo-600 hover:underline cursor-pointer"
+        >
+          Sign up
+        </span>
       </p>
     </div>
   );
